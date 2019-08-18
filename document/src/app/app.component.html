@@ -1,0 +1,49 @@
+<div class="container">
+  <header>
+    <mat-toolbar class="toolbar">
+      <span>
+        <h1>{{title}}</h1>
+      </span>
+      <span class="space"></span>
+      <span>
+        <button mat-icon-button class="button" (click)="snav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </span>
+    </mat-toolbar>
+  </header>
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #snav [mode]="'ouver'" position="end" class="sidenav">
+      <nav>
+        <mat-nav-list>
+          <mat-list-item class="menu">
+            <button mat-stroked-button class="button buttonMenu">Cadastro</button>
+          </mat-list-item>
+          <mat-list-item class="menu">
+            <button mat-stroked-button class="button buttonMenu">Consulta</button>
+          </mat-list-item>
+        </mat-nav-list>
+      </nav>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <section>
+
+      </section>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  <footer>
+    <mat-toolbar class="footer">
+      <span>
+        <h5>Desenvolvido por {{author}}</h5>
+      </span>
+      <span class="space"></span>
+      <span>
+        
+      </span>
+    </mat-toolbar>
+  </footer>
+</div>
+
+
+
+<router-outlet></router-outlet>
