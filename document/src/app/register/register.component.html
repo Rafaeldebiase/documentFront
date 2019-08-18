@@ -1,0 +1,45 @@
+<div class="container">
+    <div>
+        <form [formGroup]="formGroup">
+            <mat-vertical-stepper formArrayName="formArray" [linear]="true" #stepper>
+                <mat-step formGroupName="0" [stepControl]="formArray?.get([0])">
+                    <ng-template matStepLabel>Código</ng-template>
+                    <mat-form-field>
+                        <input matInput placeholder="Código" formControlName="code" required>
+                    </mat-form-field>
+                    <div>
+                        <button mat-button matStepperNext>Próximo</button>
+                    </div>
+                </mat-step>
+                <mat-step formGroupName="1" [stepControl]="formArray?.get([1])">
+                    <ng-template matStepLabel>Título</ng-template>
+                    <mat-form-field>
+                        <input matInput placeholder="Título" formControlName="title" required>
+                    </mat-form-field>
+                    <div>
+                        <button mat-button matStepperNext>Próximo</button>
+                    </div>
+                </mat-step>
+                <mat-step formGroupName="2" [stepControl]="formArray?.get([2])">
+                    <ng-template matStepLabel>Processo</ng-template>
+                    <mat-form-field>
+                        <input matInput placeholder="Process" formControlName="process" required>
+                    </mat-form-field>
+                    <div>
+                        <button mat-button matStepperNext>Próximo</button>
+                    </div>
+                </mat-step>
+                <mat-step formGroupName="3" [stepControl]="formArray?.get([3])">
+                    <ng-template matStepLabel>Categoria</ng-template>
+                    <mat-form-field>
+                        <input matInput placeholder="Categoria" formControlName="category" required>
+                    </mat-form-field>
+                    <div>
+                        <button mat-button matStepperNext>Próximo</button>
+                    </div>
+                </mat-step>
+                
+            </mat-vertical-stepper>
+        </form>
+    </div>
+</div>
