@@ -17,17 +17,20 @@
       <nav>
         <mat-nav-list>
           <mat-list-item class="menu">
-            <button mat-stroked-button class="button buttonMenu">Cadastro</button>
+            <button mat-stroked-button class="button buttonMenu" [routerLink]="['/home']">Home</button>
           </mat-list-item>
           <mat-list-item class="menu">
-            <button mat-stroked-button class="button buttonMenu">Consulta</button>
+            <button mat-stroked-button class="button buttonMenu"  [routerLink]="['/register']" >Cadastro</button>
+          </mat-list-item>
+          <mat-list-item class="menu">
+            <button mat-stroked-button class="button buttonMenu"  [routerLink]="['/search']">Consulta</button>
           </mat-list-item>
         </mat-nav-list>
       </nav>
     </mat-sidenav>
-    <mat-sidenav-content>
+    <mat-sidenav-content class="sidenav-content">
       <section>
-
+          <router-outlet></router-outlet>
       </section>
     </mat-sidenav-content>
   </mat-sidenav-container>
@@ -43,7 +46,3 @@
     </mat-toolbar>
   </footer>
 </div>
-
-
-
-<router-outlet></router-outlet>

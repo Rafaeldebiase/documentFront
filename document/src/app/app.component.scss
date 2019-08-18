@@ -9,7 +9,7 @@
 }
 
 .toolbar {
-    position: fixed;
+    position: relative;
     z-index: 2;
     background-color: #8c9eff;
 }
@@ -33,12 +33,10 @@ h5 {
 
 .sidenav-container {
     flex: 1;
-
 }
 
 .sidenav{
     background-color: rgba($color: #000000, $alpha: 0.3);
-    margin-top: 65px;
 }
 
 .menu {
@@ -58,4 +56,8 @@ h5 {
 .copyright {
     color: whitesmoke;
     font-size: 10px;
+}
+
+.sidenav-content {
+    background-color: #cfd8dc;
 }
