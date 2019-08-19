@@ -14,7 +14,8 @@ import { MatToolbarModule,
         MatCardModule,
         MatFormFieldModule,
         MatInputModule,
-        MatStepperModule
+        MatStepperModule,
+        MatSelectModule
         } from '@angular/material';
 
 
@@ -48,7 +49,8 @@ import { SearchComponent } from './search/search.component';
     MatFormFieldModule,
     MatInputModule,
     MatStepperModule,
-    CdkStepperModule
+    CdkStepperModule,
+    MatSelectModule
   ],
   providers: [
   ],
