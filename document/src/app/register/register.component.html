@@ -1,6 +1,7 @@
 <div class="container">
     <div>
         <form [formGroup]="formGroup">
+            <input type="file" class="file" (change)="onFileAdded()" #file formControlName="file">
             <mat-vertical-stepper formArrayName="formArray" [linear]="true" #stepper>
                 <mat-step formGroupName="0" [stepControl]="formArray?.get([0])">
                     <ng-template matStepLabel>Código</ng-template>
@@ -32,13 +33,39 @@
                 <mat-step formGroupName="3" [stepControl]="formArray?.get([3])">
                     <ng-template matStepLabel>Categoria</ng-template>
                     <mat-form-field>
-                        <input matInput placeholder="Categoria" formControlName="category" required>
+                        <mat-select formControlName="category" required>
+                            <mat-option *ngFor="let category of categories" [value]="category.value">
+                                {{category.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                        <!-- <input matInput placeholder="Categoria" formControlName="category" required> -->
                     </mat-form-field>
                     <div>
                         <button mat-button matStepperNext>Próximo</button>
                     </div>
                 </mat-step>
-                
+                <mat-step formGroupName="4" [stepControl]="formArray?.get([4])">
+                    <ng-template matStepLabel>Arquivo</ng-template>
+                    <span>{{formGroup.value.file}}</span>
+                    <span></span>
+                    <div>
+                        <button [disabled]="uploading || uploadSuccessful" mat-raised-button color="primary" 
+                            (click)="addFile()">
+                            Adicionar
+                        </button><br>
+                        <span></span>
+                        <button mat-button matStepperNext>Próximo</button>
+                        </div>
+                    </mat-step>
+                <mat-step>
+                    <ng-template matStepLabel>Done</ng-template>
+                        You are now done.
+                    <div>
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button (click)="stepper.reset()">Reset</button>
+                        <button mat-button (click)="clicked()">teste</button>
+                    </div>
+                </mat-step>
             </mat-vertical-stepper>
         </form>
     </div>
