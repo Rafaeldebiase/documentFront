@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewChild, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms';
 import { ICategory } from '../intefaces/categoryInteface';
 import { Category } from '../enums/categoryEnum';
-import { FileUploader, FileLikeObject, FileItem } from 'ng2-file-upload';
-import { getMatIconNameNotFoundError } from '@angular/material';
+import { FileUploader, FileItem } from 'ng2-file-upload';
 import { AppService } from '../app.service';
-import { IDocumentDto } from '../dtos/documentDto';
+import { DocumentDto } from '../dtos/documentDto';
 
 
 @Component({
@@ -16,7 +15,6 @@ import { IDocumentDto } from '../dtos/documentDto';
 export class RegisterComponent implements OnInit {
 
   public files: FileItem;
-
   public title = 'Cadastro';
   public formGroup: FormGroup;
   public categories: ICategory[] = [];
@@ -32,6 +30,8 @@ export class RegisterComponent implements OnInit {
   public get formArray(): AbstractControl | null {
     return this.formGroup.get('formArray');
   }
+
+  private _formArray: FormArray;
 
   // tslint:disable-next-line: variable-name
   constructor(private _formBuilder: FormBuilder, private service: AppService) { }
@@ -61,6 +61,8 @@ export class RegisterComponent implements OnInit {
         })
       ])
     });
+
+    this._formArray = this.formGroup.get('formArray') as FormArray;
   }
 
   private _createCategorySelect(): void {
@@ -96,7 +98,7 @@ export class RegisterComponent implements OnInit {
 
   public clicked() {
     if (this.formGroup.valid) {
-      const document: IDocumentDto = this._returnDocumentDto();
+      const document: DocumentDto = this._returnDocumentDto();
 
       this.service.addDocument(document).subscribe(response => {
         console.log(response);
@@ -105,14 +107,17 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  private _returnDocumentDto(): IDocumentDto {
-    return {
-      code: this.formGroup.value[0],
-      title: this.formGroup.value[1],
-      process: this.formGroup.value[2],
-      category: this.formGroup.value[3],
-      file: this.formGroup.value[4]
-    };
+  private _returnDocumentDto(): DocumentDto {
+    const document = new DocumentDto();
+    document.code = parseInt(this._formArray.value[0].code);
+    document.title = this._formArray.value[1].title;
+    document.process = this._formArray.value[2].process;
+    document.category = this._formArray.value[3].category;
+    this.uploader.queue.forEach(item => 
+      document.file = item
+    );
+
+    return document;
   }
 
   onFileAdded() {
