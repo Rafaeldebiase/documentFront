@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
+import { FileUploadModule } from 'ng2-file-upload';
+import { HttpClientModule } from '@angular/common/http';
 
 import {CdkStepperModule} from '@angular/cdk/stepper';
 import { MatToolbarModule,
@@ -15,7 +17,8 @@ import { MatToolbarModule,
         MatFormFieldModule,
         MatInputModule,
         MatStepperModule,
-        MatSelectModule
+        MatSelectModule,
+        MatTableModule
         } from '@angular/material';
 
 
@@ -39,6 +42,7 @@ import { SearchComponent } from './search/search.component';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
     MatToolbarModule,
     MatMenuModule,
     MatIconModule,
@@ -50,7 +54,9 @@ import { SearchComponent } from './search/search.component';
     MatInputModule,
     MatStepperModule,
     CdkStepperModule,
-    MatSelectModule
+    MatSelectModule,
+    FileUploadModule,
+    MatTableModule
   ],
   providers: [
   ],

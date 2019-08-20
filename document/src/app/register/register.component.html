@@ -1,7 +1,7 @@
 <div class="container">
     <div>
+        
         <form [formGroup]="formGroup">
-            <input type="file" class="file" (change)="onFileAdded()" #file formControlName="file">
             <mat-vertical-stepper formArrayName="formArray" [linear]="true" #stepper>
                 <mat-step formGroupName="0" [stepControl]="formArray?.get([0])">
                     <ng-template matStepLabel>Código</ng-template>
@@ -18,6 +18,7 @@
                         <input matInput placeholder="Título" formControlName="title" required>
                     </mat-form-field>
                     <div>
+                        <button mat-button matStepperPrevious>Back</button>
                         <button mat-button matStepperNext>Próximo</button>
                     </div>
                 </mat-step>
@@ -27,6 +28,7 @@
                         <input matInput placeholder="Process" formControlName="process" required>
                     </mat-form-field>
                     <div>
+                        <button mat-button matStepperPrevious>Back</button>
                         <button mat-button matStepperNext>Próximo</button>
                     </div>
                 </mat-step>
@@ -34,36 +36,57 @@
                     <ng-template matStepLabel>Categoria</ng-template>
                     <mat-form-field>
                         <mat-select formControlName="category" required>
-                            <mat-option *ngFor="let category of categories" [value]="category.value">
+                            <mat-option *ngFor="let category of categories" [value]="category.value" required>
                                 {{category.viewValue}}
                             </mat-option>
                         </mat-select>
-                        <!-- <input matInput placeholder="Categoria" formControlName="category" required> -->
                     </mat-form-field>
                     <div>
+                        <button mat-button matStepperPrevious>Back</button>
                         <button mat-button matStepperNext>Próximo</button>
                     </div>
                 </mat-step>
                 <mat-step formGroupName="4" [stepControl]="formArray?.get([4])">
                     <ng-template matStepLabel>Arquivo</ng-template>
-                    <span>{{formGroup.value.file}}</span>
-                    <span></span>
-                    <div>
-                        <button [disabled]="uploading || uploadSuccessful" mat-raised-button color="primary" 
-                            (click)="addFile()">
-                            Adicionar
-                        </button><br>
-                        <span></span>
-                        <button mat-button matStepperNext>Próximo</button>
+                    <button mat-raised-button color="primary" (click)="fileInput.click()" 
+                        [disabled]="controlButton">
+                        Adicionar
+                    </button>
+                    <input type="file" class="file"  #fileInput ng2FileSelect [uploader]="uploader" 
+                        (change)="onFileAdded()" formControlName="file">
+                    <div class="col-md-9 mt-5">
+                            <table class="table">
+                                <tbody>
+                                    <tr *ngFor="let item of uploader.queue">
+                                        <td>
+                                            {{ item?.file?.name }}
+                                        </td>
+                                        <td>
+                                            {{ item?.file?.size/1024/1024 | number:'.2' }} MB
+                                        </td>
+                                        <td>
+                                            <button mat-raised-button color="warn" 
+                                                (click)="removeClick()">
+                                                    Remove
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                    </mat-step>
-                <mat-step>
-                    <ng-template matStepLabel>Done</ng-template>
-                        You are now done.
+                    <input class="file" formControlName="file" required>
+                    <span class="spaceHeight"></span>
                     <div>
                         <button mat-button matStepperPrevious>Back</button>
-                        <button mat-button (click)="stepper.reset()">Reset</button>
-                        <button mat-button (click)="clicked()">teste</button>
+                        <button mat-button matStepperNext>Próximo</button>
+                    </div>
+                    </mat-step>
+                <mat-step>
+                    <ng-template matStepLabel>Concluir</ng-template>
+                    <div>
+                        <button mat-raised-button color="warn" (click)="stepper.reset()">Reset</button>
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-raised-button color="primary" (click)="clicked()">Concluir</button>
                     </div>
                 </mat-step>
             </mat-vertical-stepper>
