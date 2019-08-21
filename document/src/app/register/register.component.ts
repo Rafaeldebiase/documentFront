@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit {
   public onUploadFinished = new EventEmitter();
 
 
-  public fileData: FormData = new FormData();
+  public fileData: FormData;
   public title = 'Cadastro';
   public formGroup: FormGroup;
   public categories: ICategory[] = [];
@@ -108,11 +108,12 @@ export class RegisterComponent implements OnInit {
     if (this.formGroup.valid) {
       const document: DocumentDto = this._returnDocumentDto();
 
-      this.service.addDocument(document).subscribe(response => {
-        console.log(response);
-      });
+      // this.service.addDocument(document).subscribe(response => {
+      //   console.log(response);
+      // });
 
       this.service.upload(this.fileData);
+
     }
   }
 
@@ -132,6 +133,7 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
+    this.fileData = new FormData();
     const fileToUpload = files[0] as File;
     this.fileData.append('file', fileToUpload, fileToUpload.name);
   }
