@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse, HttpEventType } from '@angular/common/http';
 import { DocumentDto } from './dtos/documentDto';
 import { localhost } from './const/connectionsString';
 import { Observable, throwError } from 'rxjs';
@@ -10,19 +10,32 @@ import { catchError, retry } from 'rxjs/operators';
 })
 export class AppService {
 
+
   constructor(private http: HttpClient) { }
 
   public addDocument(document: DocumentDto): Observable<DocumentDto> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json'
-      }) 
+      })
     };
 
     return this.http.post<DocumentDto>(`${localhost}document/insert/${document.code}`, document, httpOptions)
       .pipe(
         // catchError(this.handleError)
       );
+  }
+
+  public upload(formData: FormData) {
+    return this.http.post('https://localhost:5001/api/upload', formData, {reportProgress: true, observe: 'events'})
+      .subscribe(event => {
+        if (event.type === HttpEventType.UploadProgress) {
+          // this.progress = Math.round(100 * event.loaded / event.total);
+        } else if (event.type === HttpEventType.Response) {
+          // this.message = 'Upload success.';
+          // this.onUploadFinished.emit(event.body);
+        }
+      });
   }
 
   public handleError(error: HttpErrorResponse) {

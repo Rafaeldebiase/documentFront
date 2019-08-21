@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms';
 import { ICategory } from '../intefaces/categoryInteface';
 import { Category } from '../enums/categoryEnum';
-import { FileUploader, FileItem } from 'ng2-file-upload';
+import { FileUploader } from 'ng2-file-upload';
 import { AppService } from '../app.service';
 import { DocumentDto } from '../dtos/documentDto';
 
@@ -14,7 +14,14 @@ import { DocumentDto } from '../dtos/documentDto';
 })
 export class RegisterComponent implements OnInit {
 
-  public files: FileItem;
+  public progress: number;
+  public message: string;
+  // tslint:disable-next-line: no-output-on-prefix
+  @Output()
+  public onUploadFinished = new EventEmitter();
+
+
+  public fileData: FormData = new FormData();
   public title = 'Cadastro';
   public formGroup: FormGroup;
   public categories: ICategory[] = [];
@@ -31,6 +38,7 @@ export class RegisterComponent implements OnInit {
     return this.formGroup.get('formArray');
   }
 
+  // tslint:disable-next-line: variable-name
   private _formArray: FormArray;
 
   // tslint:disable-next-line: variable-name
@@ -104,32 +112,28 @@ export class RegisterComponent implements OnInit {
         console.log(response);
       });
 
+      this.service.upload(this.fileData);
     }
   }
 
   private _returnDocumentDto(): DocumentDto {
     const document = new DocumentDto();
-    document.code = parseInt(this._formArray.value[0].code);
+    document.code = parseInt(this._formArray.value[0].code, 0);
     document.title = this._formArray.value[1].title;
     document.process = this._formArray.value[2].process;
     document.category = this._formArray.value[3].category;
-    this.uploader.queue.forEach(item => 
-      document.file = item
-    );
+    document.formFile = this.fileData;
 
     return document;
   }
 
-  onFileAdded() {
-    this.controlButton = true;
-    this.uploader.queue.forEach(item =>
-      this.files = item
-    );
-  }
+  public uploadFile = (files) => {
+    if (files.length === 0) {
+      return;
+    }
 
-  public removeClick() {
-    this.uploader.clearQueue();
-    this.controlButton = false;
+    const fileToUpload = files[0] as File;
+    this.fileData.append('file', fileToUpload, fileToUpload.name);
   }
 
 }

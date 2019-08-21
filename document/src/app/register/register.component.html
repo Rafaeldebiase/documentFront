@@ -48,13 +48,21 @@
                 </mat-step>
                 <mat-step formGroupName="4" [stepControl]="formArray?.get([4])">
                     <ng-template matStepLabel>Arquivo</ng-template>
-                    <button mat-raised-button color="primary" (click)="fileInput.click()" 
+                    <button mat-raised-button color="primary" (click)="file.click()" 
                         [disabled]="controlButton">
                         Adicionar
                     </button>
-                    <input type="file" class="file"  #fileInput ng2FileSelect [uploader]="uploader" 
-                        (change)="onFileAdded()" formControlName="file">
-                    <div class="col-md-9 mt-5">
+                    <input type="file" #file placeholder="Choose file" (change)="uploadFile(file.files)" 
+                        style="display:none;" formControlName="file">
+                        <div class="col-md-4">
+                            <!-- <span class="upload" *ngIf="progress > 0">
+                                {{progress}}%
+                            </span>
+                            <span class="upload" *ngIf="message">
+                                {{message}}
+                            </span> -->
+                        </div>
+                    <!-- <div class="col-md-9 mt-5">
                             <table class="table">
                                 <tbody>
                                     <tr *ngFor="let item of uploader.queue">
@@ -73,7 +81,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
+                        </div> -->
                     <input class="file" formControlName="file" required>
                     <span class="spaceHeight"></span>
                     <div>
