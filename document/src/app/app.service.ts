@@ -5,15 +5,14 @@ import { localhost } from './const/connectionsString';
 import { Observable, throwError, Subject } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { AplicationErrorHandler } from './appErrorHandler';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
 
-  public message: Subject<any> = new Subject();
-
-  constructor(private http: HttpClient) { }
+  constructor(private _http: HttpClient, private _sanck: MatSnackBar) { }
 
   public addDocument(document: DocumentDto): Observable<DocumentDto> {
     const httpOptions = {
@@ -22,15 +21,16 @@ export class AppService {
       })
     };
 
-    return this.http.post<DocumentDto>(`${localhost}document/insert/${document.code}`, document,
+    return this._http.post<DocumentDto>(`${localhost}document/insert/${document.code}`, document,
       httpOptions);
   }
 
   public upload(formData: FormData, document: DocumentDto) {
-    return this.http.post(`${localhost}upload/insert/${document.code}`, formData, {reportProgress: true, observe: 'events'})
+    return this._http.post(`${localhost}upload/insert/${document.code}`, formData, {reportProgress: true, observe: 'events'})
       .subscribe(data => {
-        console.log(data.type);
-        this.message.next('O documento fo criado com sucesso');
+        this._sanck.open('Seu Documento foi cadastrado com sucesso.', 'Upload', {
+          duration: 5000
+        })
       });
   }
 }

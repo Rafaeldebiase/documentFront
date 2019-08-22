@@ -29,13 +29,15 @@ import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { SearchComponent } from './search/search.component';
 import { AplicationErrorHandler } from './appErrorHandler';
+import { ErrorModelComponent } from './snackBarModels/error-model/error-model.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
     HomeComponent,
-    SearchComponent
+    SearchComponent,
+    ErrorModelComponent
   ],
   imports: [
     BrowserModule,

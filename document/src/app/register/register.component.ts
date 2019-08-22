@@ -4,7 +4,7 @@ import { ICategory } from '../intefaces/categoryInteface';
 import { Category } from '../enums/categoryEnum';
 import { AppService } from '../app.service';
 import { DocumentDto } from '../dtos/documentDto';
-import { MatSnackBar } from '@angular/material';
+
 
 
 @Component({
@@ -14,11 +14,7 @@ import { MatSnackBar } from '@angular/material';
 })
 export class RegisterComponent implements OnInit {
 
-  public message = this._service.message.subscribe(response =>
-    this._snack.open(response, '' , {
-      duration: 80000
-    }));
-  
+
   public fileData: FormData;
   public title = 'Cadastro';
   public formGroup: FormGroup;
@@ -31,13 +27,9 @@ export class RegisterComponent implements OnInit {
     return this.formGroup.get('formArray');
   }
 
-  // tslint:disable-next-line: variable-name
   private _formArray: FormArray;
 
-  // tslint:disable-next-line: variable-name
-  constructor(private _formBuilder: FormBuilder, private _service: AppService,
-              // tslint:disable-next-line: variable-name
-              private _snack: MatSnackBar) { }
+  constructor(private _formBuilder: FormBuilder, private _service: AppService) { }
 
   ngOnInit() {
     this._createForm();
