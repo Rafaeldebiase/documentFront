@@ -18,7 +18,7 @@ export class RegisterComponent implements OnInit {
     this._snack.open(response, '' , {
       duration: 80000
     }));
-
+  
   public fileData: FormData;
   public title = 'Cadastro';
   public formGroup: FormGroup;
@@ -48,7 +48,7 @@ export class RegisterComponent implements OnInit {
     this.formGroup = this._formBuilder.group({
       formArray: this._formBuilder.array([
         this._formBuilder.group({
-          code: [null, Validators.required]
+          code: [null, [Validators.required, Validators.pattern('^[0-9]*')]]
         }),
         this._formBuilder.group({
           title: [null, Validators.required]

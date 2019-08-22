@@ -5,8 +5,8 @@
     margin-bottom: 15px;
 }
 
-h1 {
-    color: #8c9eff;
+h2 {
+    color: white;
 }
 
 .card {
@@ -20,4 +20,10 @@ h1 {
 
 .spaceHeight {
     height: 5px;
+}
+
+.titleContainer {
+    display: flex;
+    width: 100%;
+    justify-content: center;
 }

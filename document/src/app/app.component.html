@@ -17,13 +17,13 @@
       <nav>
         <mat-nav-list>
           <mat-list-item class="menu">
-            <button mat-stroked-button class="button buttonMenu" [routerLink]="['/home']">Home</button>
+            <button mat-stroked-button class="button buttonMenu" (click)="snav.toggle()" [routerLink]="['/home']">Home</button>
           </mat-list-item>
           <mat-list-item class="menu">
-            <button mat-stroked-button class="button buttonMenu"  [routerLink]="['/register']" >Cadastro</button>
+            <button mat-stroked-button class="button buttonMenu" (click)="snav.toggle()" [routerLink]="['/register']" >Cadastro</button>
           </mat-list-item>
           <mat-list-item class="menu">
-            <button mat-stroked-button class="button buttonMenu"  [routerLink]="['/search']">Consulta</button>
+            <button mat-stroked-button class="button buttonMenu" (click)="snav.toggle()" [routerLink]="['/search']">Consulta</button>
           </mat-list-item>
         </mat-nav-list>
       </nav>

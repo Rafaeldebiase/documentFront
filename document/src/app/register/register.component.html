@@ -1,6 +1,8 @@
 <div class="container">
     <div>
-        
+        <mat-label class="titleContainer">
+            <h2>Cadastro</h2>
+        </mat-label>
         <form [formGroup]="formGroup">
             <mat-vertical-stepper formArrayName="formArray" [linear]="true" #stepper>
                 <mat-step formGroupName="0" [stepControl]="formArray?.get([0])">
