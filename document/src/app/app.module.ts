@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
@@ -18,7 +18,8 @@ import { MatToolbarModule,
         MatInputModule,
         MatStepperModule,
         MatSelectModule,
-        MatTableModule
+        MatTableModule,
+        MatSnackBarModule
         } from '@angular/material';
 
 
@@ -27,6 +28,7 @@ import { AppComponent } from './app.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { SearchComponent } from './search/search.component';
+import { AplicationErrorHandler } from './appErrorHandler';
 
 @NgModule({
   declarations: [
@@ -56,9 +58,11 @@ import { SearchComponent } from './search/search.component';
     CdkStepperModule,
     MatSelectModule,
     FileUploadModule,
-    MatTableModule
+    MatTableModule,
+    MatSnackBarModule
   ],
   providers: [
+    {provide: ErrorHandler, useClass: AplicationErrorHandler}
   ],
   bootstrap: [AppComponent]
 })

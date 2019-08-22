@@ -1,10 +1,10 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms';
 import { ICategory } from '../intefaces/categoryInteface';
 import { Category } from '../enums/categoryEnum';
-import { FileUploader } from 'ng2-file-upload';
 import { AppService } from '../app.service';
 import { DocumentDto } from '../dtos/documentDto';
+import { MatSnackBar } from '@angular/material';
 
 
 @Component({
@@ -14,25 +14,18 @@ import { DocumentDto } from '../dtos/documentDto';
 })
 export class RegisterComponent implements OnInit {
 
-  public progress: number;
-  public message: string;
-  // tslint:disable-next-line: no-output-on-prefix
-  @Output()
-  public onUploadFinished = new EventEmitter();
-
+  public message = this._service.message.subscribe(response =>
+    this._snack.open(response, '' , {
+      duration: 80000
+    }));
 
   public fileData: FormData;
   public title = 'Cadastro';
   public formGroup: FormGroup;
   public categories: ICategory[] = [];
   public controlButton = false;
+  public fileOk: string;
 
-  public uploader: FileUploader = new FileUploader({
-    disableMultipart : false,
-    autoUpload: false,
-    itemAlias: 'attachment',
-    allowedFileType: ['pdf', 'doc', 'docx', 'xls', 'xlsx']
-  });
 
   public get formArray(): AbstractControl | null {
     return this.formGroup.get('formArray');
@@ -42,7 +35,9 @@ export class RegisterComponent implements OnInit {
   private _formArray: FormArray;
 
   // tslint:disable-next-line: variable-name
-  constructor(private _formBuilder: FormBuilder, private service: AppService) { }
+  constructor(private _formBuilder: FormBuilder, private _service: AppService,
+              // tslint:disable-next-line: variable-name
+              private _snack: MatSnackBar) { }
 
   ngOnInit() {
     this._createForm();
@@ -108,11 +103,9 @@ export class RegisterComponent implements OnInit {
     if (this.formGroup.valid) {
       const document: DocumentDto = this._returnDocumentDto();
 
-      // this.service.addDocument(document).subscribe(response => {
-      //   console.log(response);
-      // });
-
-      this.service.upload(this.fileData);
+      this._service.addDocument(document).subscribe(response => {
+        this._service.upload(this.fileData, response);
+      });
 
     }
   }
@@ -123,8 +116,6 @@ export class RegisterComponent implements OnInit {
     document.title = this._formArray.value[1].title;
     document.process = this._formArray.value[2].process;
     document.category = this._formArray.value[3].category;
-    document.formFile = this.fileData;
-
     return document;
   }
 
@@ -135,7 +126,15 @@ export class RegisterComponent implements OnInit {
 
     this.fileData = new FormData();
     const fileToUpload = files[0] as File;
+    this.fileOk = fileToUpload.name;
     this.fileData.append('file', fileToUpload, fileToUpload.name);
   }
+
+  public removeFile() {
+    this.fileOk = '';
+    this.fileData = new FormData();
+  }
+
+
 
 }
