@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, MatSnackBar } from '@angular/material';
+import { IDocument } from '../intefaces/documentInterface';
+import { AppService } from '../app.service';
 
 @Component({
   selector: 'do-search',
@@ -10,13 +12,15 @@ import { MatTableDataSource } from '@angular/material';
 })
 export class SearchComponent implements OnInit {
 
-  public displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  public dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+
+  public displayedColumns: string[] = ['code', 'title', 'process', 'category', 'file', 'action'];
+  public dataSource = new MatTableDataSource<IDocument>(ELEMENT_DATA);
 
   public formGroup: FormGroup;
 
   fileUrl;
-  constructor(private sanitizer: DomSanitizer, private builder: FormBuilder) {  }
+  constructor(private sanitizer: DomSanitizer, private builder: FormBuilder,
+              private snack: MatSnackBar, private service: AppService) {  }
   ngOnInit() {
     const data = 'some text';
     const blob = new Blob([data], { type: 'application/octet-stream' });
@@ -32,16 +36,19 @@ export class SearchComponent implements OnInit {
     });
   }
 
+  public getByCode() {
+    const code: any = this.formGroup.get('search').value;
+
+    if (code instanceof Number) {
+      const relativeUri = `document/getbycode/${code}`;
+      const x = this.service.get(relativeUri);
+    }
+  }
+
 }
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
 
-const ELEMENT_DATA: PeriodicElement[] = [
+const ELEMENT_DATA: any [] = [
   {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
   {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
   {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},

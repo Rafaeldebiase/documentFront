@@ -4,6 +4,7 @@ import { DocumentDto } from './dtos/documentDto';
 import { localhost } from './const/connectionsString';
 import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material';
+import { IDocument } from './intefaces/documentInterface';
 
 @Injectable({
   providedIn: 'root'
@@ -33,5 +34,9 @@ export class AppService {
           });
         }
       });
+  }
+
+  public get(relativeUri: string): Observable<IDocument> {
+    return this._http.get<IDocument>(`${localhost}${relativeUri}`);
   }
 }

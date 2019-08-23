@@ -8,7 +8,7 @@
     </div>
     <div class="row marginRow">
         <mat-button-toggle-group name="tools">
-            <mat-button-toggle class="toggle" value='code'>Código</mat-button-toggle>
+            <mat-button-toggle class="toggle" value='code' (change)="getByCode()">Código</mat-button-toggle>
             <mat-button-toggle class="toggle" value='title'>Título</mat-button-toggle>
             <mat-button-toggle class="toggle" value='process'>Processo</mat-button-toggle>
             <mat-button-toggle class="toggle" value='category'>Categoria</mat-button-toggle>
@@ -27,25 +27,38 @@
 <div class="mat-app-background basic-container">
     <div class="mat-elevation-z8">
         <table mat-table [dataSource]="dataSource">
-            <ng-container matColumnDef="position">
-                <th mat-header-cell *matHeaderCellDef> No. </th>
-                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+            <ng-container matColumnDef="code">
+                <th mat-header-cell *matHeaderCellDef> Código </th>
+                <td mat-cell *matCellDef="let element"> {{element.code}} </td>
             </ng-container>
-            <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef> Name </th>
-                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            <ng-container matColumnDef="title">
+                <th mat-header-cell *matHeaderCellDef> Título </th>
+                <td mat-cell *matCellDef="let element"> {{element.title}} </td>
             </ng-container>
-            <ng-container matColumnDef="weight">
-                <th mat-header-cell *matHeaderCellDef> Weight </th>
-                <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+            <ng-container matColumnDef="process">
+                <th mat-header-cell *matHeaderCellDef> Processo </th>
+                <td mat-cell *matCellDef="let element"> {{element.process}} </td>
             </ng-container>
-            <ng-container matColumnDef="symbol">
-                <th mat-header-cell *matHeaderCellDef> Symbol </th>
+            <ng-container matColumnDef="category">
+                <th mat-header-cell *matHeaderCellDef> Categoria </th>
+                <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+            </ng-container>
+            <ng-container matColumnDef="file">
+                <th mat-header-cell *matHeaderCellDef>File</th>
                 <td mat-cell *matCellDef="let element"> 
                     <button mat-icon-button>
                         <a  class="link" [href]="fileUrl" download="file.txt">
                             <mat-icon class="link">cloud_download</mat-icon>    
                         </a>
+                    </button>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element"> 
+                    <button mat-icon-button>
+                        <mat-icon class="space" color="primary">create</mat-icon>    
+                        <mat-icon color="warn">delete_forever</mat-icon>    
                     </button>
                 </td>
             </ng-container>
