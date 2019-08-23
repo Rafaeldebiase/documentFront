@@ -12,15 +12,17 @@ import { Category } from '../enums/categoryEnum';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-
-  public fileUrl;
+  
   private data: IDocument[] = [];
+  public fileUrl;
   public displayedColumns: string[] = ['code', 'title', 'process', 'category', 'file', 'action'];
   public dataSource = new MatTableDataSource<IDocument>(this.data);
-
+  
   public formGroup: FormGroup;
   public formGroupEdit: FormGroup;
-
+  public edit = false;
+  public save = true;
+  
   constructor(private sanitizer: DomSanitizer, private builder: FormBuilder,
     private snack: MatSnackBar, private service: AppService) { }
   
@@ -49,7 +51,7 @@ export class SearchComponent implements OnInit {
     return numberTest.test(str)
   }
 
-  public getByCode() {
+  public getByCodeClick() {
     const code: string = this.formGroup.get('search').value;
 
     if (this.isNumeric(code)) {
@@ -65,7 +67,7 @@ export class SearchComponent implements OnInit {
 
   }
 
-  public getByTitle() {
+  public getByTitleClick() {
     const title: string = this.formGroup.get('search').value;
 
     if (title !== null) {
@@ -80,7 +82,7 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  public getByProcess() {
+  public getByProcessClick() {
     const process: string = this.formGroup.get('search').value;
 
     if (process !== null) {
@@ -95,7 +97,7 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  public getByCategory() {
+  public getByCategoryClick() {
     const rn1Value = Category.RN1;
     const rn2Value = Category.RN2;
     const rn3Value = Category.RN3;
@@ -124,14 +126,20 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  public download(key: number) {
+  public downloadCick(key: number) {
     this.service.getFile(key).subscribe( response => {
       const blob = new Blob([response.blob], { type: response.contentType });
       this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
     });
   }
 
-  public patch() {
-    
+  public editClick() {
+    this.edit = true;
+    this.save = false;
   }
+
+  public saveClick(row: any) {
+    console.log(row);
+  }
+
 }
