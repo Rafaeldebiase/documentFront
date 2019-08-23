@@ -6,4 +6,5 @@ export interface IDocument {
     title: string;
     process: string;
     category: Category;
+    delete: boolean;
 }

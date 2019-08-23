@@ -7,4 +7,5 @@ export class DocumentDto {
     process: string;
     category: Category;
     formFile: FormData;
+    delete: boolean;
 }
