@@ -13,28 +13,34 @@ import { Category } from '../enums/categoryEnum';
 })
 export class SearchComponent implements OnInit {
 
-
+  public fileUrl;
   private data: IDocument[] = [];
   public displayedColumns: string[] = ['code', 'title', 'process', 'category', 'file', 'action'];
   public dataSource = new MatTableDataSource<IDocument>(this.data);
 
   public formGroup: FormGroup;
+  public formGroupEdit: FormGroup;
 
-  fileUrl;
   constructor(private sanitizer: DomSanitizer, private builder: FormBuilder,
     private snack: MatSnackBar, private service: AppService) { }
-  ngOnInit() {
-    const data = 'some text';
-    const blob = new Blob([data], { type: 'application/octet-stream' });
-
-    this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
-
+  
+    ngOnInit() {
     this._form();
+    this._formEdit();
   }
 
   private _form(): void {
     this.formGroup = this.builder.group({
       search: [null, [Validators.required]]
+    });
+  }
+
+  private _formEdit(): void {
+    this.formGroupEdit = this.builder.group({
+      code: [null],
+      title: [null],
+      process: [null],
+      category: [null]
     });
   }
 
@@ -118,7 +124,14 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  public download() {
+  public download(key: number) {
+    this.service.getFile(key).subscribe( response => {
+      const blob = new Blob([response.blob], { type: response.contentType });
+      this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+    });
+  }
+
+  public patch() {
     
   }
 }

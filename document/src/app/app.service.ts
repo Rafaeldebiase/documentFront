@@ -12,8 +12,7 @@ import { IFile } from './intefaces/fileInterface';
 })
 export class AppService {
 
-  // tslint:disable-next-line: variable-name
-  constructor(private _http: HttpClient, private _snack: MatSnackBar) { }
+  constructor(private http: HttpClient, private snack: MatSnackBar) { }
 
   public addDocument(document: DocumentDto): Observable<DocumentDto> {
     const httpOptions = {
@@ -22,15 +21,15 @@ export class AppService {
       })
     };
 
-    return this._http.post<DocumentDto>(`${localhost}document/insert/${document.code}`, document,
+    return this.http.post<DocumentDto>(`${localhost}document/insert/${document.code}`, document,
       httpOptions);
   }
 
   public upload(formData: FormData, document: DocumentDto) {
-    return this._http.post(`${localhost}upload/insert/${document.code}`, formData, {reportProgress: true, observe: 'events'})
+    return this.http.post(`${localhost}upload/insert/${document.code}`, formData, {reportProgress: true, observe: 'events'})
       .subscribe(event => {
         if (event.type === HttpEventType.Response) {
-          this._snack.open('Seu Documento foi cadastrado com sucesso.', 'Upload', {
+          this.snack.open('Seu Documento foi cadastrado com sucesso.', 'Upload', {
             duration: 5000
           });
         }
@@ -38,10 +37,20 @@ export class AppService {
   }
 
   public get(relativeUri: string): Observable<IDocument> {
-    return this._http.get<IDocument>(`${localhost}${relativeUri}`);
+    return this.http.get<IDocument>(`${localhost}${relativeUri}`);
   }
 
   public getFile(key: number): Observable<IFile> {
-    return this._http.get<IFile>(`${localhost}/upload/get/${key}`); 
+    return this.http.get<IFile>(`${localhost}/upload/get/${key}`); 
   }
+
+  // public patch(key: number, ): Observable<DocumentDto> {
+  //   const httpOptions = {
+  //     headers: new HttpHeaders({
+  //       'Content-Type':  'application/json'
+  //     })
+  //   };
+
+  //   // return this.http.patch<DocumentDto>(`${localhost}/edit/${key}`,)
+  // }
 }
