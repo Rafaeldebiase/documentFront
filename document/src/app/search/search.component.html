@@ -9,16 +9,16 @@
     <div class="row marginRow">
         <mat-button-toggle-group name="tools">
             <mat-button-toggle class="toggle" value='code' (change)="getByCode()">Código</mat-button-toggle>
-            <mat-button-toggle class="toggle" value='title'>Título</mat-button-toggle>
-            <mat-button-toggle class="toggle" value='process'>Processo</mat-button-toggle>
-            <mat-button-toggle class="toggle" value='category'>Categoria</mat-button-toggle>
+            <mat-button-toggle class="toggle" value='title' (change)="getByTitle()">Título</mat-button-toggle>
+            <mat-button-toggle class="toggle" value='process' (change)="getByProcess()">Processo</mat-button-toggle>
+            <mat-button-toggle class="toggle" value='category' (change)="getByCategory()">Categoria</mat-button-toggle>
         </mat-button-toggle-group>
     </div>
     <div class="row">
         <form  [formGroup]="formGroup">
             <mat-form-field appearance="outline" color="primary">
-                <mat-label class="label">Pesquisa</mat-label>
-                <input matInput required>
+                <mat-label class="label">Pesquisar</mat-label>
+                <input matInput formControlName="search" required>
                 <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
         </form>

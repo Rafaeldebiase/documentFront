@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatTableDataSource, MatSnackBar } from '@angular/material';
 import { IDocument } from '../intefaces/documentInterface';
 import { AppService } from '../app.service';
+import { Category } from '../enums/categoryEnum';
 
 @Component({
   selector: 'do-search',
@@ -13,7 +14,7 @@ import { AppService } from '../app.service';
 export class SearchComponent implements OnInit {
 
 
-  private data: IDocument [] = [];
+  private data: IDocument[] = [];
   public displayedColumns: string[] = ['code', 'title', 'process', 'category', 'file', 'action'];
   public dataSource = new MatTableDataSource<IDocument>(this.data);
 
@@ -21,7 +22,7 @@ export class SearchComponent implements OnInit {
 
   fileUrl;
   constructor(private sanitizer: DomSanitizer, private builder: FormBuilder,
-              private snack: MatSnackBar, private service: AppService) {  }
+    private snack: MatSnackBar, private service: AppService) { }
   ngOnInit() {
     const data = 'some text';
     const blob = new Blob([data], { type: 'application/octet-stream' });
@@ -37,49 +38,87 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  private get _search() {
-    return this.formGroup.get('search').value;
+  private isNumeric(str: string): boolean {
+    var numberTest = /^[0-9]+$/;
+    return numberTest.test(str)
   }
 
   public getByCode() {
-    const code: any = this._search();
+    const code: string = this.formGroup.get('search').value;
 
-    if (code instanceof Number) {
+    if (this.isNumeric(code)) {
       const relativeUri = `document/getbycode/${code}`;
       this.service.get(relativeUri).subscribe(response => {
         this.data.push(response);
       });
     }
     else {
-      this.snack.open('Você não digitou o código correto ou executou a pesquisa errada');
+      this.snack.open('Para executar esta pequisa favor informar o código, deve conter apenas números',
+        'Pesquisa pelo código', { duration: 3000 });
     }
+
   }
 
   public getByTitle() {
-    const title: string = this._search();
-    const relativeUri = `document/getbytitle/${title}`; 
+    const title: string = this.formGroup.get('search').value;
 
-    this.service.get(relativeUri).subscribe(response => {
-      this.data.push(response);
-    });
+    if (title !== null) {
+      const relativeUri = `document/getbytitle/${title}`;
+      this.service.get(relativeUri).subscribe(response => {
+        this.data.push(response);
+      });
+    }
+    else {
+      this.snack.open('Favor digitar o título a ser pesquisado',
+        'Pesquisa pelo titulo', { duration: 3000 });
+    }
   }
 
   public getByProcess() {
-    const process: string = this._search();
-    const relativeUri = `document/getbyprocess/${process}`; 
+    const process: string = this.formGroup.get('search').value;
 
-    this.service.get(relativeUri).subscribe(response => {
-      this.data.push(response);
-    });
+    if (process !== null) {
+      const relativeUri = `document/getbyprocess/${process}`;
+      this.service.get(relativeUri).subscribe(response => {
+        this.data.push(response);
+      });
+    }
+    else {
+      this.snack.open('Favor digitar o processo a ser pesquisado',
+        'Pesquisa pelo processo', { duration: 3000 });
+    }
   }
 
   public getByCategory() {
-    const category: string = this._search();
-    const relativeUri = `document/getbycategory/${category}`; 
+    const rn1Value = Category.RN1;
+    const rn2Value = Category.RN2;
+    const rn3Value = Category.RN3;
+    const rn4Value = Category.RN4;
+    const rn5Value = Category.RN5;
 
-    this.service.get(relativeUri).subscribe(response => {
-      this.data.push(response);
-    });
+    const category: string = this.formGroup.get('search').value;
+
+    if (category !== null) {
+      if (category === Category[rn1Value] || category === Category[rn2Value] ||
+        category === Category[rn3Value] || category === Category[rn4Value] ||
+        category === Category[rn5Value]) {
+        const relativeUri = `document/getbycategory/${category}`;
+        this.service.get(relativeUri).subscribe(response => {
+          this.data.push(response);
+        });
+      }
+      else {
+        this.snack.open('Favor digitar o nome da categoria correto ou realizar a pesquisa correta',
+          'Pesquisa pelo processo', { duration: 3000 });
+      }
+    }
+    else {
+      this.snack.open('Favor digitar o processo a ser pesquisado',
+        'Pesquisa pelo processo', { duration: 3000 });
+    }
   }
 
+  public download() {
+    
+  }
 }

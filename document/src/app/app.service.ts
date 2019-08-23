@@ -5,6 +5,7 @@ import { localhost } from './const/connectionsString';
 import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material';
 import { IDocument } from './intefaces/documentInterface';
+import { IFile } from './intefaces/fileInterface';
 
 @Injectable({
   providedIn: 'root'
@@ -38,5 +39,9 @@ export class AppService {
 
   public get(relativeUri: string): Observable<IDocument> {
     return this._http.get<IDocument>(`${localhost}${relativeUri}`);
+  }
+
+  public getFile(key: number): Observable<IFile> {
+    return this._http.get<IFile>(`${localhost}/upload/get/${key}`); 
   }
 }
