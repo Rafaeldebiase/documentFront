@@ -19,7 +19,9 @@ import { MatToolbarModule,
         MatStepperModule,
         MatSelectModule,
         MatTableModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatButtonToggleModule,
+        MatPaginatorModule
         } from '@angular/material';
 
 
@@ -29,7 +31,6 @@ import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { SearchComponent } from './search/search.component';
 import { AplicationErrorHandler } from './appErrorHandler';
-import { ErrorModelComponent } from './snackBarModels/error-model/error-model.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import { ErrorModelComponent } from './snackBarModels/error-model/error-model.co
     RegisterComponent,
     HomeComponent,
     SearchComponent,
-    ErrorModelComponent
+
   ],
   imports: [
     BrowserModule,
@@ -61,7 +62,9 @@ import { ErrorModelComponent } from './snackBarModels/error-model/error-model.co
     MatSelectModule,
     FileUploadModule,
     MatTableModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatButtonToggleModule,
+    MatPaginatorModule
   ],
   providers: [
     {provide: ErrorHandler, useClass: AplicationErrorHandler}

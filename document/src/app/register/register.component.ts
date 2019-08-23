@@ -118,8 +118,15 @@ export class RegisterComponent implements OnInit {
 
     this.fileData = new FormData();
     const fileToUpload = files[0] as File;
-    this.fileOk = fileToUpload.name;
-    this.fileData.append('file', fileToUpload, fileToUpload.name);
+    if (fileToUpload.type === 'application/msword' ||
+      fileToUpload.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+      fileToUpload.type === 'application/pdf' ||
+      fileToUpload.type === 'application/vnd.ms-excel' ||
+      fileToUpload.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ) {
+      this.fileOk = fileToUpload.name;
+      this.fileData.append('file', fileToUpload, fileToUpload.name);
+    }
   }
 
   public removeFile() {

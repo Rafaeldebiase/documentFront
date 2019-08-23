@@ -1,0 +1,51 @@
+a {
+    color: inherit;
+}
+
+table {
+    width: 100%;
+}
+
+.basic-container {
+    padding: 30px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+.row {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.marginRow {
+    margin-bottom: 30px;
+}
+
+.toggle {
+    background-color: rgba($color: #000000, $alpha: 0.5);
+    color: white;
+}
+
+.toggle:hover {
+    background-color: #d81b60;
+}
+
+mat-form-field.mat-form-field {
+    color: white;
+}
+
+.label {
+    color: white;
+}
+
+.link {
+    color: rgba($color: #000000, $alpha: 0.5);
+}
