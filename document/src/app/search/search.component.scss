@@ -2,14 +2,6 @@ a {
     color: inherit;
 }
 
-table {
-    width: 100%;
-}
-
-.basic-container {
-    padding: 30px;
-}
-
 .container {
     display: flex;
     flex-direction: column;
@@ -46,10 +38,3 @@ mat-form-field.mat-form-field {
     color: white;
 }
 
-.link {
-    color: rgba($color: #000000, $alpha: 0.5);
-}
-
-.space {
-    margin-right: 20px;
-}

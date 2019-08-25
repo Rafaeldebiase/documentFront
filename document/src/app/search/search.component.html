@@ -8,10 +8,10 @@
     </div>
     <div class="row marginRow">
         <mat-button-toggle-group name="tools">
-            <mat-button-toggle class="toggle" value='code' (change)="getByCodeClick()">Código</mat-button-toggle>
-            <mat-button-toggle class="toggle" value='title' (change)="getByTitleClick()">Título</mat-button-toggle>
-            <mat-button-toggle class="toggle" value='process' (change)="getByProcessClick()">Processo</mat-button-toggle>
-            <mat-button-toggle class="toggle" value='category' (change)="getByCategoryClick()">Categoria</mat-button-toggle>
+            <mat-button-toggle class="toggle" (change)="codeClick()" >Código</mat-button-toggle>
+            <mat-button-toggle class="toggle" >Título</mat-button-toggle>
+            <mat-button-toggle class="toggle" >Processo</mat-button-toggle>
+            <mat-button-toggle class="toggle" >Categoria</mat-button-toggle>
         </mat-button-toggle-group>
     </div>
     <div class="row">
@@ -26,97 +26,7 @@
 </div>
 <div class="mat-app-background basic-container">
     <div class="mat-elevation-z8">
-        <form [formGroup]="formGroupEdit">
-            <table mat-table [dataSource]="dataSource">
-                <ng-container matColumnDef="code">
-                    <th mat-header-cell *matHeaderCellDef> Código </th>
-                    <td mat-cell *matCellDef="let element">
-                        <div *ngIf="edit ? codeInput : codeText">
-                            <div #codeInput>
-                                <mat-form-field appearance="legacy" color="primary">
-                                    <input matInput formControlName="code">
-                                </mat-form-field>
-                            </div>
-                            <div #codeText>
-                                {{element.code}} 
-                            </div>
-                        </div>
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="title">
-                    <th mat-header-cell *matHeaderCellDef> Título </th>
-                    <td mat-cell *matCellDef="let element"> 
-                        <div *ngIf="edit ? titleInput : titleText">
-                            <div #titleInput>
-                                <mat-form-field appearance="legacy" color="primary">
-                                    <input matInput formControlName="title">
-                                </mat-form-field>
-                            </div>
-                            <div #titleText>
-                                {{element.title}} 
-                            </div>
-                        </div>
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="process">
-                    <th mat-header-cell *matHeaderCellDef> Processo </th>
-                    <td mat-cell *matCellDef="let element">
-                        <div *ngIf="edit ? processInput : processText">
-                            <div #processInput>
-                                <mat-form-field appearance="legacy" color="primary">
-                                    <input matInput formControlName="process">
-                                </mat-form-field>
-                            </div>
-                            <div #processText>
-                                {{element.process}} 
-                            </div>
-                        </div>
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="category">
-                    <th mat-header-cell *matHeaderCellDef> Categoria </th>
-                    <td mat-cell *matCellDef="let element"> 
-                        <div *ngIf="edit ? categoryInput : categoryText">
-                            <div #categoryInput>
-                                <mat-form-field appearance="legacy" color="primary">
-                                    <input matInput formControlName="process">
-                                </mat-form-field>
-                            </div>
-                            <div #categoryText>
-                                {{element.category}} 
-                            </div>
-                        </div>
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="file">
-                    <th mat-header-cell *matHeaderCellDef>File</th>
-                    <td mat-cell *matCellDef="let element"> 
-                        <button mat-icon-button>
-                            <a  class="link" [href]="fileUrl" download="file.txt">
-                                <mat-icon class="link">cloud_download</mat-icon>    
-                            </a>
-                        </button>
-                    </td>
-                </ng-container>
-                <ng-container matColumnDef="action">
-                    <th mat-header-cell *matHeaderCellDef></th>
-                    <td mat-cell *matCellDef="let element">
-                        <button mat-icon-button [disabled]="edit">
-                            <mat-icon class="space" color="primary">create</mat-icon>    
-                        </button>
-                        <button mat-icon-button>
-                            <mat-icon color="warn">delete_forever</mat-icon>    
-                        </button>
-                        <button mat-icon-button [disabled]="save" (click)="saveClick(row)">
-                            <mat-icon class="space">ok</mat-icon>    
-                        </button>
-                    </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;" #row></tr>
-            </table>
-        </form>
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        <do-table></do-table>
     </div>
 </div>
 
