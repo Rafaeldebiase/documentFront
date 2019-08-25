@@ -15,7 +15,6 @@ export class DocumentDataSource extends DataSource<IDocument> {
     private documentSubject =  new BehaviorSubject<IDocument[]>([]);
     private loadingSubject = new BehaviorSubject<boolean>(false);
     public loading$ = this.loadingSubject.asObservable();
-    private data: IDocument[];
 
     public connect(collectionViewer: CollectionViewer): Observable<IDocument[]> {
         return this.documentSubject.asObservable();
@@ -35,12 +34,11 @@ export class DocumentDataSource extends DataSource<IDocument> {
         ).subscribe(document =>
             {
                 this.documentSubject.next(document);
-                this.data = document;
             });
     }
 
     public CodeSearch(code: number) {
-        const document = this.data.filter(field => field.code === code);
-        this.documentSubject.next(document);
+        // const document = data.filter(field => field.code === code);
+        // this.documentSubject.next(document);
     }
 }

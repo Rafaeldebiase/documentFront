@@ -22,7 +22,8 @@ import { MatToolbarModule,
         MatSnackBarModule,
         MatButtonToggleModule,
         MatPaginatorModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        MatSortModule
         } from '@angular/material';
 
 
@@ -33,6 +34,7 @@ import { HomeComponent } from './home/home.component';
 import { SearchComponent } from './search/search.component';
 import { AplicationErrorHandler } from './appErrorHandler';
 import { TableComponent } from './table/table.component';
+import { AppService } from './app.service';
 
 @NgModule({
   declarations: [
@@ -68,7 +70,8 @@ import { TableComponent } from './table/table.component';
     MatSnackBarModule,
     MatButtonToggleModule,
     MatPaginatorModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSortModule
   ],
   providers: [
     {provide: ErrorHandler, useClass: AplicationErrorHandler}

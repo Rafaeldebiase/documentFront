@@ -1,10 +1,10 @@
 
-import { Category } from '../enums/categoryEnum';
 
 export interface IDocument {
     code: number;
     title: string;
     process: string;
-    category: Category;
+    category: string;
     delete: boolean;
+    file: any;
 }

@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Input } from '@angular/core';
 import { DocumentDataSource } from '../DocumentDataSource';
 import { AppService } from '../app.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MatPaginator } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { IDocument } from '../intefaces/documentInterface';
-import { ActivatedRoute } from '@angular/router';
 import { tap } from 'rxjs/operators';
+import { SearchComponent } from '../search/search.component';
 
 @Component({
   selector: 'do-table',
@@ -16,34 +16,33 @@ import { tap } from 'rxjs/operators';
 export class TableComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
+
+  @Input() teste: string;
 
   public document: IDocument;
   public fileUrl;
   public displayedColumns: string[] = ['code', 'title', 'process', 'category', 'file', 'action'];
-  public dataSource: DocumentDataSource;
+  public dataSource = new MatTableDataSource<IDocument>();
   public edit = false;
   public save = true;
   public formGroupEdit: FormGroup;
 
-  constructor(private service: AppService,  private builder: FormBuilder, private route: ActivatedRoute,
+  constructor(private service: AppService,  private builder: FormBuilder,
               private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
-    // this.document = this.route.snapshot.data['IDocument'];
-    this.dataSource = new DocumentDataSource(this.service);
-    this.dataSource.loadDocument();
     this._formEdit();
+    this._getAll();
   }
 
   ngAfterViewInit(): void {
-    this.paginator.page.pipe(
-      tap(
-        () => this.loadDocumentPage())
-      ).subscribe();
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+    this.filter();
   }
 
   private loadDocumentPage() {
-    // this.dataSource.loadDocument();
 
   }
 
@@ -56,12 +55,25 @@ export class TableComponent implements OnInit, AfterViewInit {
     });
   }
 
+  private _getAll(): void {
+    this.service.getAll().subscribe(response => this.dataSource.data = response);
+  }
+
   public downloadCick(key: number) {
     this.service.getFile(key).subscribe(
       response => {
-        const blob = new Blob([response], { type: 'application/pdf' });
-        this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+        console.log('blob'); 
     });
   }
 
+  private filter() {
+    this.service.filter$.subscribe((value: string) =>
+      this.dataSource.filter = value.trim().toLocaleLowerCase()
+    );
+  }
+
 }
+
+
+// const blob = new Blob([response], { type: 'application/pdf' });
+//         this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));

@@ -6,19 +6,11 @@
             </h2>
         </mat-label>
     </div>
-    <div class="row marginRow">
-        <mat-button-toggle-group name="tools">
-            <mat-button-toggle class="toggle" (change)="codeClick()" >Código</mat-button-toggle>
-            <mat-button-toggle class="toggle" >Título</mat-button-toggle>
-            <mat-button-toggle class="toggle" >Processo</mat-button-toggle>
-            <mat-button-toggle class="toggle" >Categoria</mat-button-toggle>
-        </mat-button-toggle-group>
-    </div>
     <div class="row">
         <form  [formGroup]="formGroup">
             <mat-form-field appearance="outline" color="primary">
                 <mat-label class="label">Pesquisar</mat-label>
-                <input matInput formControlName="search" required>
+                    <input matInput formControlName="search" (keyup)="filter($event.target.value)">
                 <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
         </form>
@@ -26,7 +18,7 @@
 </div>
 <div class="mat-app-background basic-container">
     <div class="mat-elevation-z8">
-        <do-table></do-table>
+        <do-table [teste]="filterSubject"></do-table>
     </div>
 </div>
 
