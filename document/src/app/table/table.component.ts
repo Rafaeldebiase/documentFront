@@ -1,12 +1,13 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Input, ElementRef } from '@angular/core';
 import { DocumentDataSource } from '../DocumentDataSource';
 import { AppService } from '../app.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 import { IDocument } from '../intefaces/documentInterface';
 import { tap } from 'rxjs/operators';
 import { SearchComponent } from '../search/search.component';
+import { DeleteModalComponent } from '../modal/delete-modal/delete-modal.component';
 
 @Component({
   selector: 'do-table',
@@ -17,6 +18,7 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild('download', {static: true}) private download: ElementRef;
 
   @Input() teste: string;
 
@@ -29,7 +31,7 @@ export class TableComponent implements OnInit, AfterViewInit {
   public formGroupEdit: FormGroup;
 
   constructor(private service: AppService,  private builder: FormBuilder,
-              private sanitizer: DomSanitizer) { }
+              public dialog: MatDialog) { }
 
   ngOnInit() {
     this._formEdit();
@@ -56,13 +58,15 @@ export class TableComponent implements OnInit, AfterViewInit {
   }
 
   private _getAll(): void {
-    this.service.getAll().subscribe(response => this.dataSource.data = response);
+    this.service.getAll().subscribe(response => {
+      this.dataSource.data = response;
+    });
   }
 
-  public downloadCick(key: number) {
+  public downloadClick(key: number) {
     this.service.getFile(key).subscribe(
       response => {
-        console.log('blob'); 
+        window.open(window.URL.createObjectURL(response));
     });
   }
 
@@ -72,8 +76,15 @@ export class TableComponent implements OnInit, AfterViewInit {
     );
   }
 
+  public delete(title: string): void {
+    const dialogRef = this.dialog.open(DeleteModalComponent, {
+      width: '250px',
+      data: {documento: title}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    });
+  }
+
 }
-
-
-// const blob = new Blob([response], { type: 'application/pdf' });
-//         this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));

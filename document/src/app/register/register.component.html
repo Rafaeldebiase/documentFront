@@ -20,17 +20,17 @@
                         <input matInput placeholder="Título" formControlName="title" required>
                     </mat-form-field>
                     <div>
-                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button matStepperPrevious>Voltar</button>
                         <button mat-button matStepperNext>Próximo</button>
                     </div>
                 </mat-step>
                 <mat-step formGroupName="2" [stepControl]="formArray?.get([2])">
                     <ng-template matStepLabel>Processo</ng-template>
                     <mat-form-field>
-                        <input matInput placeholder="Process" formControlName="process" required>
+                        <input matInput placeholder="Processo" formControlName="process" required>
                     </mat-form-field>
                     <div>
-                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button matStepperPrevious>Voltar</button>
                         <button mat-button matStepperNext>Próximo</button>
                     </div>
                 </mat-step>
@@ -44,7 +44,7 @@
                         </mat-select>
                     </mat-form-field>
                     <div>
-                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button matStepperPrevious>Voltar</button>
                         <button mat-button matStepperNext>Próximo</button>
                     </div>
                 </mat-step>
@@ -59,21 +59,23 @@
                         <div class="col-md-4">
                             <span *ngIf="fileOk">
                                 {{fileOk}}
-                                <button mat-button color="warn" (click)="removeFile()">Remove</button>
+                                <button mat-button  color="warn" matTooltip="Remove arquivo anexado"
+                                    (click)="removeFile()">Remove</button>
                             </span>
                         </div>
                     <input class="file" formControlName="file" required>
                     <span class="spaceHeight"></span>
                     <div>
-                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button matStepperPrevious>Voltar</button>
                         <button mat-button matStepperNext>Próximo</button>
                     </div>
                     </mat-step>
                 <mat-step>
                     <ng-template matStepLabel>Concluir</ng-template>
                     <div>
-                        <button mat-raised-button color="warn" (click)="stepper.reset()">Reset</button>
-                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-raised-button color="warn" matTooltip="Reseta formulário"
+                            (click)="stepper.reset()">Limpar</button>
+                        <button mat-button matStepperPrevious>Voltar</button>
                         <button mat-raised-button color="primary" (click)="clicked()">Concluir</button>
                     </div>
                 </mat-step>

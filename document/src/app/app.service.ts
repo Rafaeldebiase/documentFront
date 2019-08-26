@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpHeaderResponse, HttpEventType } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpHeaderResponse, HttpEventType, HttpResponse } from '@angular/common/http';
 import { DocumentDto } from './dtos/documentDto';
 import { localhost } from './const/connectionsString';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
@@ -8,6 +8,7 @@ import { IDocument } from './intefaces/documentInterface';
 import { IFile } from './intefaces/fileInterface';
 import { map } from 'rxjs/operators';
 import { Category } from './enums/categoryEnum';
+import { async } from 'q';
 
 @Injectable({
   providedIn: 'root'
@@ -31,14 +32,14 @@ export class AppService {
   }
 
   public upload(formData: FormData, document: DocumentDto) {
-    return this.http.post(`${localhost}upload/insert/${document.code}`, formData, {reportProgress: true, observe: 'events'})
-      .subscribe(event => {
+    return this.http.post<FormData>(`${localhost}file/insert/${document.code}`,
+      formData, {reportProgress: true, observe: 'events'}).subscribe(event => {
         if (event.type === HttpEventType.Response) {
           this.snack.open('Seu Documento foi cadastrado com sucesso.', 'Upload', {
             duration: 5000
-          });
-        }
-      });
+        });
+      }
+    });
   }
 
   public getAll(): Observable<IDocument[]> {
@@ -46,7 +47,8 @@ export class AppService {
   }
 
   public getFile(key: number): Observable<Blob> {
-    return this.http.get<Blob>(`${localhost}file/get/${key}`);
+    return this.http.get<Blob>(`${localhost}file/get/${key}`, {responseType: 'blob' as 'json',
+      reportProgress: true});
   }
 
   // public patch(key: number, ): Observable<DocumentDto> {

@@ -4,6 +4,8 @@ import { ICategory } from '../intefaces/categoryInteface';
 import { Category } from '../enums/categoryEnum';
 import { AppService } from '../app.service';
 import { DocumentDto } from '../dtos/documentDto';
+import { MatSnackBar, MatStepper } from '@angular/material';
+import { Builder } from 'protractor';
 
 
 
@@ -29,7 +31,8 @@ export class RegisterComponent implements OnInit {
 
   private _formArray: FormArray;
 
-  constructor(private _formBuilder: FormBuilder, private _service: AppService) { }
+  constructor(private builder: FormBuilder, private service: AppService, 
+              private snack: MatSnackBar) { }
 
   ngOnInit() {
     this._createForm();
@@ -37,21 +40,21 @@ export class RegisterComponent implements OnInit {
   }
 
   private _createForm(): void {
-    this.formGroup = this._formBuilder.group({
-      formArray: this._formBuilder.array([
-        this._formBuilder.group({
+    this.formGroup = this.builder.group({
+      formArray: this.builder.array([
+        this.builder.group({
           code: [null, [Validators.required, Validators.pattern('^[0-9]*')]]
         }),
-        this._formBuilder.group({
+        this.builder.group({
           title: [null, Validators.required]
         }),
-        this._formBuilder.group({
+        this.builder.group({
           process: [null, Validators.required]
         }),
-        this._formBuilder.group({
+        this.builder.group({
           category: [null, Validators.required]
         }),
-        this._formBuilder.group({
+        this.builder.group({
           file: [null, [Validators.required]]
         })
       ])
@@ -91,26 +94,6 @@ export class RegisterComponent implements OnInit {
     this.categories.push(rn1, rn2, rn3, rn4, rn5);
   }
 
-  public clicked() {
-    if (this.formGroup.valid) {
-      const document: DocumentDto = this._returnDocumentDto();
-
-      this._service.addDocument(document).subscribe(response => {
-        this._service.upload(this.fileData, response);
-      });
-
-    }
-  }
-
-  private _returnDocumentDto(): DocumentDto {
-    const document = new DocumentDto();
-    document.code = parseInt(this._formArray.value[0].code, 0);
-    document.title = this._formArray.value[1].title;
-    document.process = this._formArray.value[2].process;
-    document.category = this._formArray.value[3].category;
-    return document;
-  }
-
   public uploadFile = (files) => {
     if (files.length === 0) {
       return;
@@ -127,6 +110,28 @@ export class RegisterComponent implements OnInit {
       this.fileOk = fileToUpload.name;
       this.fileData.append('file', fileToUpload, fileToUpload.name);
     }
+  }
+
+  public clicked() {
+    if (this.formGroup.valid) {
+      const document: DocumentDto = this._returnDocumentDto();
+
+      this.service.addDocument(document).subscribe(response => {
+        this.service.upload(this.fileData, response);
+        this.fileData = new FormData();
+        this.formGroup = this.builder.group({});
+      });
+
+    }
+  }
+
+  private _returnDocumentDto(): DocumentDto {
+    const document = new DocumentDto();
+    document.code = parseInt(this._formArray.value[0].code, 0);
+    document.title = this._formArray.value[1].title;
+    document.process = this._formArray.value[2].process;
+    document.category = this._formArray.value[3].category;
+    return document;
   }
 
   public removeFile() {

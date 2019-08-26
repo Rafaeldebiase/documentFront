@@ -23,7 +23,9 @@ import { MatToolbarModule,
         MatButtonToggleModule,
         MatPaginatorModule,
         MatProgressSpinnerModule,
-        MatSortModule
+        MatSortModule,
+        MatTooltipModule,
+        MatDialogModule
         } from '@angular/material';
 
 
@@ -35,6 +37,7 @@ import { SearchComponent } from './search/search.component';
 import { AplicationErrorHandler } from './appErrorHandler';
 import { TableComponent } from './table/table.component';
 import { AppService } from './app.service';
+import { DeleteModalComponent } from './modal/delete-modal/delete-modal.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +46,7 @@ import { AppService } from './app.service';
     HomeComponent,
     SearchComponent,
     TableComponent,
+    DeleteModalComponent,
 
   ],
   imports: [
@@ -71,7 +75,9 @@ import { AppService } from './app.service';
     MatButtonToggleModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
-    MatSortModule
+    MatSortModule,
+    MatTooltipModule,
+    MatDialogModule
   ],
   providers: [
     {provide: ErrorHandler, useClass: AplicationErrorHandler}

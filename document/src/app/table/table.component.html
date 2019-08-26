@@ -4,57 +4,30 @@
             <ng-container matColumnDef="code">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Código </th>
                 <td mat-cell *matCellDef="let element">
-                    <!-- <div *ngIf="edit ? codeInput : codeText">
-                        <div #codeInput> -->
-                            <!-- <mat-form-field appearance="legacy" color="primary">
-                                <input matInput formControlName="code"> -->
-                            <!-- </mat-form-field>
-                        </div> -->
                         <div #codeText>
                             {{element.code}} 
                         </div>
-                    <!-- </div> -->
                 </td>
             </ng-container>
             <ng-container matColumnDef="title">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Título </th>
                 <td mat-cell *matCellDef="let element"> 
-                    <!-- <div *ngIf="edit ? titleInput : titleText"> -->
-                        <!-- <div #titleInput> -->
-                            <!-- <mat-form-field appearance="legacy" color="primary">
-                                <input matInput formControlName="title">
-                            </mat-form-field> -->
-                        <!-- </div> -->
                         <div #titleText>
                             {{element.title}} 
                         </div>
-                    <!-- </div> -->
                 </td>
             </ng-container>
             <ng-container matColumnDef="process">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Processo </th>
                 <td mat-cell *matCellDef="let element">
-                    <!-- <div *ngIf="edit ? processInput : processText"> -->
-                        <!-- <div #processInput> -->
-                            <!-- <mat-form-field appearance="legacy" color="primary"> -->
-                                <!-- <input matInput formControlName="process"> -->
-                            <!-- </mat-form-field> -->
-                        <!-- </div> -->
                         <div #processText>
                             {{element.process}} 
                         </div>
-                    <!-- </div> -->
                 </td>
             </ng-container>
             <ng-container matColumnDef="category">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Categoria </th>
                 <td mat-cell *matCellDef="let element"> 
-                        <!-- <div *ngIf="edit ? categoryInput : categoryText"> -->
-                        <!-- <div #categoryInput> -->
-                            <!-- <mat-form-field appearance="legacy" color="primary"> -->
-                                <!-- <input matInput formControlName="process"> -->
-                            <!-- </mat-form-field> -->
-                        <!-- </div> -->
                         <div #categoryText>
                             {{element.category}} 
                         </div>
@@ -62,11 +35,9 @@
             </ng-container>
             <ng-container matColumnDef="file">
                 <th mat-header-cell *matHeaderCellDef>File</th>
-                <td mat-cell *matCellDef="let element"> 
-                    <button mat-icon-button (click)="downloadCick(element.code)">
-                        <a  class="link" [href]="fileUrl" download="file.txt">
-                            <mat-icon class="link">cloud_download</mat-icon>    
-                        </a>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button (click)="downloadClick(element.code)">
+                        <mat-icon matTooltip={{element.fileName}} class="link">cloud_download</mat-icon>    
                     </button>
                 </td>
             </ng-container>
@@ -74,13 +45,11 @@
                 <th mat-header-cell *matHeaderCellDef>Ação</th>
                 <td mat-cell *matCellDef="let element">
                     <button mat-icon-button [disabled]="edit">
-                        <mat-icon class="space" color="primary">create</mat-icon>    
+                        <mat-icon class="space" matTooltip="Editar" color="primary">create</mat-icon>    
                     </button>
                     <button mat-icon-button>
-                        <mat-icon class="space" color="warn">delete_forever</mat-icon>    
-                    </button>
-                    <button mat-icon-button [disabled]="save">
-                        <mat-icon class="check">check</mat-icon>    
+                        <mat-icon class="space" matTooltip="Deletar" color="warn" 
+                            (click)="delete(element.title)">delete_forever</mat-icon>    
                     </button>
                 </td>
             </ng-container>
