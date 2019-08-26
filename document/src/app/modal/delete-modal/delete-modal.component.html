@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Delete</h1>
+<div mat-dialog-content>
+    <p>Tem certeza que deseja apagar o documento?</p>
+</div>
+<div mat-dialog-actions>
+    <button mat-icon-button>
+        <mat-icon matTooltip="Deletar" color="warn">delete_forever</mat-icon>    
+    </button>
+    <button mat-icon-button [mat-dialog-close]="true">
+        <mat-icon class="cancel" matTooltip="Cancelar" cdkFocusInitial>cancel_presentation</mat-icon>    
+    </button>
+    
+</div>
